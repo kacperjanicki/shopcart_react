@@ -8,6 +8,7 @@ import { faker } from "@faker-js/faker";
 import { cartReducer } from "./context/reducers";
 
 export const UserNameContext = React.createContext();
+faker.seed(99);
 
 function App() {
     const products = [...Array(20)].map(() => ({
@@ -27,8 +28,8 @@ function App() {
 
     return (
         <Router>
-            <Header />
             <UserNameContext.Provider value={{ state, dispatch }}>
+                <Header />
                 <div>
                     <Routes>
                         <Route path="/" exact element={<Home />} />

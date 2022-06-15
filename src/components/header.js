@@ -1,9 +1,15 @@
-import { Dropdown, Container, Navbar, FormControl } from "react-bootstrap";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { Dropdown, Container, Navbar, FormControl, Badge, Button } from "react-bootstrap";
+import { AiFillDelete, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useContext } from "react";
+import { UserNameContext } from "../App";
 
 const Header = () => {
+    const {
+        state: { cart },
+        dispatch,
+    } = useContext(UserNameContext);
+
     return (
         <Navbar bg="dark" variant="dark" style={{ height: 80 }}>
             <Container>
@@ -15,11 +21,40 @@ const Header = () => {
                 </Navbar.Text>
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        <Badge bg="success">{cart.length}</Badge>
                         <AiOutlineShoppingCart />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu align="end">
-                        <Dropdown.Item href="">Action</Dropdown.Item>
+                        {cart.length > 0 ? (
+                            <>
+                                {cart.map((prod) => (
+                                    <span className="cartItem">
+                                        <img src={prod.image} alt={prod.name} className="cartImg" />
+                                        <div className="cartItemDetail">
+                                            <span>{prod.name}</span>
+                                            <span>{prod.price}</span>
+                                        </div>
+                                        <AiFillDelete
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => {
+                                                dispatch({
+                                                    type: "REMOVE_FROM_CART",
+                                                    payload: prod,
+                                                });
+                                            }}
+                                        />
+                                    </span>
+                                ))}
+                                <div className="d-grid gap-2">
+                                    <Button variant="primary">
+                                        <Link to={"/cart"}>Go to cart</Link>
+                                    </Button>
+                                </div>
+                            </>
+                        ) : (
+                            <Dropdown.Item href="">Cart is empty</Dropdown.Item>
+                        )}
                     </Dropdown.Menu>
                 </Dropdown>
             </Container>
