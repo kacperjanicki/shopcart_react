@@ -5,7 +5,9 @@ import Cart from "./components/cart";
 import React, { useReducer } from "react";
 import Header from "./components/header";
 import { faker } from "@faker-js/faker";
+import Todo from "./components/todo";
 import { cartReducer } from "./context/reducers";
+import { productReducer } from "./context/reducers";
 
 export const UserNameContext = React.createContext();
 faker.seed(99);
@@ -26,14 +28,22 @@ function App() {
         cart: [],
     });
 
+    const [productState, productDispatch] = useReducer(productReducer, {
+        byStock: false,
+        byFastDelivery: false,
+        byRating: 0,
+        searchQuery: "",
+    });
+
     return (
         <Router>
-            <UserNameContext.Provider value={{ state, dispatch }}>
+            <UserNameContext.Provider value={{ state, dispatch, productState, productDispatch }}>
                 <Header />
                 <div>
                     <Routes>
                         <Route path="/" exact element={<Home />} />
                         <Route path="/cart" exact element={<Cart />} />
+                        <Route path="/todo" exact element={<Todo />} />
                     </Routes>
                 </div>
             </UserNameContext.Provider>

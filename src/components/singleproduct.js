@@ -9,7 +9,6 @@ const SinglePerson = ({ prod }) => {
         state: { cart },
         dispatch,
     } = useContext(UserNameContext);
-    console.log(cart);
 
     return (
         <div className="products">

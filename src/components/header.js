@@ -8,6 +8,7 @@ const Header = () => {
     const {
         state: { cart },
         dispatch,
+        productDispatch,
     } = useContext(UserNameContext);
 
     return (
@@ -17,7 +18,14 @@ const Header = () => {
                     <Link to="/">Shopping cart</Link>
                 </Navbar.Brand>
                 <Navbar.Text className="search">
-                    <FormControl className="m-auto" style={{ width: 500 }} placeholder="Search product" />
+                    <FormControl
+                        className="m-auto"
+                        style={{ width: 500 }}
+                        placeholder="Search product"
+                        onChange={(e) => {
+                            productDispatch({ type: "SORT_BY_SEARCH", payload: e.target.value });
+                        }}
+                    />
                 </Navbar.Text>
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
